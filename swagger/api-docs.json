@@ -1,0 +1,206 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "Pojet: Ouattara n'golo aboubacar",
+		"description": "Api restful (CRUD) avec mysql et swagger",
+		"termsOfService": "http://swagger.io/terms/"
+	},
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "utilisateurs",
+			"description": "utilisateurs actions"
+		}
+	],
+	"schemes": ["http", "https"],
+	"consumes": ["application/json"],
+	"produces": ["application/json"],
+	"paths": {
+		"/api/v1/utilisateurs": {
+			"post": {
+				"tags": ["utilisateurs"],
+				"description": "creer un utilisateurs",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "vm",
+						"required": ["profileID", "name", "is_active"],
+						"in": "body",
+						"properties": {
+							"profileID": {
+								"$ref": "#/definitions/profileID"
+							},
+							"name": {
+								"$ref": "#/definitions/name"
+							},
+							"is_active": {
+								"$ref": "#/definitions/is_active"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Business Exception",
+						"schema": {
+							"$ref": "#/definitions/business_exception"
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": ["utilisateurs"],
+				"description": "Modifier un utilisateur",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "vm",
+						"required": ["_id", "profileID", "name", "is_active"],
+						"in": "body",
+						"properties": {
+							"_id": {
+								"$ref": "#/definitions/_id"
+							},
+							"profileID": {
+								"$ref": "#/definitions/profileID"
+							},
+							"name": {
+								"$ref": "#/definitions/name"
+							},
+							"is_active": {
+								"$ref": "#/definitions/is_active"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Business Exception",
+						"schema": {
+							"$ref": "#/definitions/business_exception"
+						}
+					}
+				}
+			},
+			"get": {
+				"tags": ["utilisateurs"],
+				"description": "liste des utilisateurs avec critere de selection",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "_id",
+						"in": "query",
+						"type": "number",
+						"description": "Id utilisateur",
+						"example": 1
+					},
+					{
+						"name": "profileID",
+						"in": "query",
+						"type": "number",
+						"description": "Profile ID (1 = ADMIN, 2 = CLIENT)",
+						"example": 1
+					},
+					{
+						"name": "name",
+						"in": "query",
+						"type": "string",
+						"description": "Nom de l'utilisateur",
+						"example": "LUCIANO"
+					},
+					{
+						"name": "is_active",
+						"in": "query",
+						"type": "boolean",
+						"description": "L'utilisateur est-il active?",
+						"example": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Business Exception",
+						"schema": {
+							"$ref": "#/definitions/business_exception"
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["utilisateurs"],
+				"description": "Supprimer un utilisateur",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "_id",
+						"in": "query",
+						"required": true,
+						"type": "number",
+						"description": "Id de l'utilisateur",
+						"example": 1
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "Business Exception",
+						"schema": {
+							"$ref": "#/definitions/business_exception"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"_id": {
+			"type": "number",
+			"description": "Id de l'tilisateur",
+			"example": 1
+		},
+		"profileID": {
+			"type": "number",
+			"description": "Profile ID (1 = ADMIN, 2 = CLIENT)",
+			"example": 1
+		},
+		"name": {
+			"type": "string",
+			"description": "Nom de l'utilisateur",
+			"example": "LUCIANO"
+		},
+		"is_active": {
+			"type": "boolean",
+			"description": "L'utilisateur est-il active?",
+			"example": true
+		},
+		"error": {
+			"type": "object",
+			"description": "Erreur lors de la requete",
+			"properties": {
+				"msg": {
+					"type": "string",
+					"description": "Erreur lors de la requete",
+					"example": "Utilisateur non trouvé"
+				}
+			}
+		},
+		"business_exception": {
+			"type": "array",
+			"description": "Error array",
+			"items": {
+				"$ref": "#/definitions/error"
+			}
+		}
+	}
+}
